@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+	<url> 
+		<loc>https://stvwisen.ch</loc> 
+		<lastmod>2019-05-17</lastmod>
+		<changefreq>monthly</changefreq>
+		<image:image>
+			<image:loc>https://stvwisen.ch/images/stvwisen-logo.svg</image:loc>
+			<image:caption>Logo Turnverein Wisen</image:caption>
+		</image:image>
+	</url>
+	<url> 
+		<loc>https://stvwisen.ch/#stubete</loc> 
+		<lastmod>2019-05-17</lastmod>
+		<changefreq>monthly</changefreq>
+	</url>
+	<url> 
+		<loc>https://stvwisen.ch/#turnen</loc> 
+		<lastmod>2017-10-25</lastmod>
+		<changefreq>yearly</changefreq>
+	</url>
+	<url> 
+		<loc>https://stvwisen.ch/#geschichte</loc> 
+		<lastmod>2017-10-25</lastmod>
+		<changefreq>yearly</changefreq>
+	</url>
+    <url> 
+		<loc>https://stvwisen.ch/#erfolge</loc> 
+		<lastmod>2017-10-25</lastmod>
+		<changefreq>yearly</changefreq>
+	</url>
+	<url> 
+		<loc>https://stvwisen.ch/#jugend</loc> 
+		<lastmod>2017-10-25</lastmod>
+		<changefreq>yearly</changefreq>
+	</url>
+	<url> 
+		<loc>https://stvwisen.ch/#vorstand</loc> 
+		<lastmod>2018-05-17</lastmod>
+		<changefreq>yearly</changefreq>
+	</url>
+</urlset>
