@@ -12,18 +12,13 @@
 		</image:image>
 	</url>
 	<url> 
-		<loc>https://stvwisen.ch/#stubete</loc> 
-		<lastmod>2019-05-17</lastmod>
-		<changefreq>monthly</changefreq>
-	</url>
-	<url> 
 		<loc>https://stvwisen.ch/#turnen</loc> 
 		<lastmod>2017-10-25</lastmod>
 		<changefreq>yearly</changefreq>
 	</url>
 	<url> 
 		<loc>https://stvwisen.ch/#geschichte</loc> 
-		<lastmod>2017-10-25</lastmod>
+		<lastmod>2021-12-21</lastmod>
 		<changefreq>yearly</changefreq>
 	</url>
     <url> 
@@ -33,12 +28,12 @@
 	</url>
 	<url> 
 		<loc>https://stvwisen.ch/#jugend</loc> 
-		<lastmod>2017-10-25</lastmod>
+		<lastmod>2021-12-21</lastmod>
 		<changefreq>yearly</changefreq>
 	</url>
 	<url> 
 		<loc>https://stvwisen.ch/#vorstand</loc> 
-		<lastmod>2018-05-17</lastmod>
+		<lastmod>2021-12-21</lastmod>
 		<changefreq>yearly</changefreq>
 	</url>
 </urlset>
