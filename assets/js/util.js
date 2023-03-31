@@ -95,126 +95,10 @@ function getPanelifiedElement(userConfig) {
   }
 
   // Panel.
-
-  // Methods.
-  $this._hide = function (event) {
-    // Already hidden? Bail.
-    if (!config.target.hasClass(config.visibleClass)) return;
-
-    // If an event was provided, cancel it.
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    // Hide.
-    config.target.removeClass(config.visibleClass);
-
-    // Post-hide stuff.
-    window.setTimeout(function () {
-      // Reset scroll position.
-      if (config.resetScroll) $this.scrollTop(0);
-
-      // Reset forms.
-      if (config.resetForms)
-        $this.find("form").each(function () {
-          this.reset();
-        });
-    }, config.delay);
-  };
-
-  // Vendor fixes.
-  $this
-    .css("-ms-overflow-style", "-ms-autohiding-scrollbar")
-    .css("-webkit-overflow-scrolling", "touch");
-
-  // Hide on click.
-  if (config.hideOnClick) {
-    $this.find("a").css("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
-
-    $this.on("click", "a", function (event) {
-      let $a = $(this),
-        href = $a.attr("href"),
-        target = $a.attr("target");
-
-      if (!href || href == "#" || href == "" || href == "#" + id) return;
-
-      // Cancel original event.
-      event.preventDefault();
-      event.stopPropagation();
-
-      // Hide panel.
-      $this._hide();
-
-      // Redirect to href.
-      window.setTimeout(function () {
-        if (target == "_blank") window.open(href);
-        else window.location.href = href;
-      }, config.delay + 10);
-    });
-  }
+  setupPanels($this, config, id);
 
   // Event: Touch stuff.
-  $this.on("touchstart", function (event) {
-    $this.touchPosX = event.originalEvent.touches[0].pageX;
-    $this.touchPosY = event.originalEvent.touches[0].pageY;
-  });
-
-  $this.on("touchmove", function (event) {
-    if ($this.touchPosX === null || $this.touchPosY === null) return;
-
-    let diffX = $this.touchPosX - event.originalEvent.touches[0].pageX,
-      diffY = $this.touchPosY - event.originalEvent.touches[0].pageY,
-      th = $this.outerHeight(),
-      ts = $this.get(0).scrollHeight - $this.scrollTop();
-
-    // Hide on swipe?
-    if (config.hideOnSwipe) {
-      let result = false,
-        boundary = 20,
-        delta = 50;
-
-      switch (config.side) {
-        case "left":
-          result = diffY < boundary && diffY > -1 * boundary && diffX > delta;
-          break;
-
-        case "right":
-          result =
-            diffY < boundary && diffY > -1 * boundary && diffX < -1 * delta;
-          break;
-
-        case "top":
-          result = diffX < boundary && diffX > -1 * boundary && diffY > delta;
-          break;
-
-        case "bottom":
-          result =
-            diffX < boundary && diffX > -1 * boundary && diffY < -1 * delta;
-          break;
-
-        default:
-          break;
-      }
-
-      if (result) {
-        $this.touchPosX = null;
-        $this.touchPosY = null;
-        $this._hide();
-
-        return false;
-      }
-    }
-
-    // Prevent vertical scrolling past the top or bottom.
-    if (
-      ($this.scrollTop() < 0 && diffY < 0) ||
-      (ts > th - 2 && ts < th + 2 && diffY > 0)
-    ) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  });
+  setupTouchEvents($this, config);
 
   // Event: Prevent certain events inside the panel from bubbling.
   $this.on("click touchend touchstart touchmove", function (event) {
@@ -485,6 +369,129 @@ function prioritize($elements, condition) {
 
       // Unmark element as moved.
       $e.removeData(key);
+    }
+  });
+}
+
+function setupPanels($this, config, id) {
+  // Methods.
+  $this._hide = function (event) {
+    // Already hidden? Bail.
+    if (!config.target.hasClass(config.visibleClass)) return;
+
+    // If an event was provided, cancel it.
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    // Hide.
+    config.target.removeClass(config.visibleClass);
+
+    // Post-hide stuff.
+    window.setTimeout(function () {
+      // Reset scroll position.
+      if (config.resetScroll) $this.scrollTop(0);
+
+      // Reset forms.
+      if (config.resetForms)
+        $this.find("form").each(function () {
+          this.reset();
+        });
+    }, config.delay);
+  };
+
+  // Vendor fixes.
+  $this
+    .css("-ms-overflow-style", "-ms-autohiding-scrollbar")
+    .css("-webkit-overflow-scrolling", "touch");
+
+  // Hide on click.
+  if (config.hideOnClick) {
+    $this.find("a").css("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+
+    $this.on("click", "a", function (event) {
+      let $a = $(this),
+        href = $a.attr("href"),
+        target = $a.attr("target");
+
+      if (!href || href == "#" || href == "" || href == "#" + id) return;
+
+      // Cancel original event.
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Hide panel.
+      $this._hide();
+
+      // Redirect to href.
+      window.setTimeout(function () {
+        if (target == "_blank") window.open(href);
+        else window.location.href = href;
+      }, config.delay + 10);
+    });
+  }
+}
+
+function setupTouchEvents($this, config) {
+  $this.on("touchstart", function (event) {
+    $this.touchPosX = event.originalEvent.touches[0].pageX;
+    $this.touchPosY = event.originalEvent.touches[0].pageY;
+  });
+
+  $this.on("touchmove", function (event) {
+    if ($this.touchPosX === null || $this.touchPosY === null) return;
+
+    let diffX = $this.touchPosX - event.originalEvent.touches[0].pageX,
+      diffY = $this.touchPosY - event.originalEvent.touches[0].pageY,
+      th = $this.outerHeight(),
+      ts = $this.get(0).scrollHeight - $this.scrollTop();
+
+    // Hide on swipe?
+    if (config.hideOnSwipe) {
+      let result = false,
+        boundary = 20,
+        delta = 50;
+
+      switch (config.side) {
+        case "left":
+          result = diffY < boundary && diffY > -1 * boundary && diffX > delta;
+          break;
+
+        case "right":
+          result =
+            diffY < boundary && diffY > -1 * boundary && diffX < -1 * delta;
+          break;
+
+        case "top":
+          result = diffX < boundary && diffX > -1 * boundary && diffY > delta;
+          break;
+
+        case "bottom":
+          result =
+            diffX < boundary && diffX > -1 * boundary && diffY < -1 * delta;
+          break;
+
+        default:
+          break;
+      }
+
+      if (result) {
+        $this.touchPosX = null;
+        $this.touchPosY = null;
+        $this._hide();
+
+        return false;
+      }
+    }
+
+    // Prevent vertical scrolling past the top or bottom.
+    if (
+      ($this.scrollTop() < 0 && diffY < 0) ||
+      (ts > th - 2 && ts < th + 2 && diffY > 0)
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
     }
   });
 }
