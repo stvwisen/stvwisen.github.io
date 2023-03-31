@@ -162,157 +162,13 @@ function applyPlaceholder() {
   let $this = $(this);
 
   // Text, TextArea.
-  $this
-    .find("input[type=text],textarea")
-    .each(function () {
-      let i = $(this);
-
-      if (i.val() == "" || i.val() == i.attr("placeholder"))
-        i.addClass("polyfill-placeholder").val(i.attr("placeholder"));
-    })
-    .on("blur", function () {
-      let i = $(this);
-
-      if (i.attr("name").match(/-polyfill-field$/)) return;
-
-      if (i.val() == "")
-        i.addClass("polyfill-placeholder").val(i.attr("placeholder"));
-    })
-    .on("focus", function () {
-      let i = $(this);
-
-      if (i.attr("name").match(/-polyfill-field$/)) return;
-
-      if (i.val() == i.attr("placeholder"))
-        i.removeClass("polyfill-placeholder").val("");
-    });
+  setupPlaceholderForTextInputs($this);
 
   // Password.
-  $this.find("input[type=password]").each(function () {
-    let i = $(this);
-    let x = $(
-      $("<div>")
-        .append(i.clone())
-        .remove()
-        .html()
-        .replace(/type="password"/i, 'type="text"')
-        .replace(/type=password/i, "type=text")
-    );
-
-    if (i.attr("id") != "") x.attr("id", i.attr("id") + "-polyfill-field");
-
-    if (i.attr("name") != "")
-      x.attr("name", i.attr("name") + "-polyfill-field");
-
-    x.addClass("polyfill-placeholder")
-      .val(x.attr("placeholder"))
-      .insertAfter(i);
-
-    if (i.val() == "") i.hide();
-    else x.hide();
-
-    i.on("blur", function (event) {
-      event.preventDefault();
-
-      let x = i
-        .parent()
-        .find("input[name=" + i.attr("name") + "-polyfill-field]");
-
-      if (i.val() == "") {
-        i.hide();
-        x.show();
-      }
-    });
-
-    x.on("focus", function (event) {
-      event.preventDefault();
-
-      let i = x
-        .parent()
-        .find(
-          "input[name=" + x.attr("name").replace("-polyfill-field", "") + "]"
-        );
-
-      x.hide();
-
-      i.show().focus();
-    }).on("keypress", function (event) {
-      event.preventDefault();
-      x.val("");
-    });
-  });
+  setupPlaceholderForPasswordInputs($this);
 
   // Events.
-  $this
-    .on("submit", function () {
-      $this
-        .find("input[type=text],input[type=password],textarea")
-        .each(function (event) {
-          let i = $(this);
-
-          if (i.attr("name").match(/-polyfill-field$/)) i.attr("name", "");
-
-          if (i.val() == i.attr("placeholder")) {
-            i.removeClass("polyfill-placeholder");
-            i.val("");
-          }
-        });
-    })
-    .on("reset", function (event) {
-      event.preventDefault();
-
-      $this.find("select").val($("option:first").val());
-
-      $this.find("input,textarea").each(function () {
-        let i = $(this),
-          x;
-
-        i.removeClass("polyfill-placeholder");
-
-        switch (this.type) {
-          case "submit":
-          case "reset":
-            break;
-
-          case "password":
-            i.val(i.attr("defaultValue"));
-
-            x = i
-              .parent()
-              .find("input[name=" + i.attr("name") + "-polyfill-field]");
-
-            if (i.val() == "") {
-              i.hide();
-              x.show();
-            } else {
-              i.show();
-              x.hide();
-            }
-
-            break;
-
-          case "checkbox":
-          case "radio":
-            i.attr("checked", i.attr("defaultValue"));
-            break;
-
-          case "text":
-          case "textarea":
-            i.val(i.attr("defaultValue"));
-
-            if (i.val() == "") {
-              i.addClass("polyfill-placeholder");
-              i.val(i.attr("placeholder"));
-            }
-
-            break;
-
-          default:
-            i.val(i.attr("defaultValue"));
-            break;
-        }
-      });
-    });
+  setupPlaceholderReset($this);
 
   return $this;
 }
@@ -407,6 +263,10 @@ function setupPanels($this, config, id) {
     .css("-webkit-overflow-scrolling", "touch");
 
   // Hide on click.
+  setupHideOnClick(config, $this, id);
+}
+
+function setupHideOnClick(config, $this, id) {
   if (config.hideOnClick) {
     $this.find("a").css("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
 
@@ -494,6 +354,162 @@ function setupTouchEvents($this, config) {
       event.stopPropagation();
     }
   });
+}
+
+function setupPlaceholderForTextInputs($this) {
+  $this
+    .find("input[type=text],textarea")
+    .each(function () {
+      let i = $(this);
+
+      if (i.val() == "" || i.val() == i.attr("placeholder"))
+        i.addClass("polyfill-placeholder").val(i.attr("placeholder"));
+    })
+    .on("blur", function () {
+      let i = $(this);
+
+      if (i.attr("name").match(/-polyfill-field$/)) return;
+
+      if (i.val() == "")
+        i.addClass("polyfill-placeholder").val(i.attr("placeholder"));
+    })
+    .on("focus", function () {
+      let i = $(this);
+
+      if (i.attr("name").match(/-polyfill-field$/)) return;
+
+      if (i.val() == i.attr("placeholder"))
+        i.removeClass("polyfill-placeholder").val("");
+    });
+}
+
+function setupPlaceholderForPasswordInputs($this) {
+  $this.find("input[type=password]").each(function () {
+    let i = $(this);
+    let x = $(
+      $("<div>")
+        .append(i.clone())
+        .remove()
+        .html()
+        .replace(/type="password"/i, 'type="text"')
+        .replace(/type=password/i, "type=text")
+    );
+
+    if (i.attr("id") != "") x.attr("id", i.attr("id") + "-polyfill-field");
+
+    if (i.attr("name") != "")
+      x.attr("name", i.attr("name") + "-polyfill-field");
+
+    x.addClass("polyfill-placeholder")
+      .val(x.attr("placeholder"))
+      .insertAfter(i);
+
+    if (i.val() == "") i.hide();
+    else x.hide();
+
+    i.on("blur", function (event) {
+      event.preventDefault();
+
+      let x = i
+        .parent()
+        .find("input[name=" + i.attr("name") + "-polyfill-field]");
+
+      if (i.val() == "") {
+        i.hide();
+        x.show();
+      }
+    });
+
+    x.on("focus", function (event) {
+      event.preventDefault();
+
+      let i = x
+        .parent()
+        .find(
+          "input[name=" + x.attr("name").replace("-polyfill-field", "") + "]"
+        );
+
+      x.hide();
+
+      i.show().focus();
+    }).on("keypress", function (event) {
+      event.preventDefault();
+      x.val("");
+    });
+  });
+}
+
+function setupPlaceholderReset($this) {
+  $this
+    .on("submit", function () {
+      $this
+        .find("input[type=text],input[type=password],textarea")
+        .each(function (event) {
+          let i = $(this);
+
+          if (i.attr("name").match(/-polyfill-field$/)) i.attr("name", "");
+
+          if (i.val() == i.attr("placeholder")) {
+            i.removeClass("polyfill-placeholder");
+            i.val("");
+          }
+        });
+    })
+    .on("reset", function (event) {
+      event.preventDefault();
+
+      $this.find("select").val($("option:first").val());
+
+      $this.find("input,textarea").each(function () {
+        let i = $(this),
+          x;
+
+        i.removeClass("polyfill-placeholder");
+
+        switch (this.type) {
+          case "submit":
+          case "reset":
+            break;
+
+          case "password":
+            i.val(i.attr("defaultValue"));
+
+            x = i
+              .parent()
+              .find("input[name=" + i.attr("name") + "-polyfill-field]");
+
+            if (i.val() == "") {
+              i.hide();
+              x.show();
+            } else {
+              i.show();
+              x.hide();
+            }
+
+            break;
+
+          case "checkbox":
+          case "radio":
+            i.attr("checked", i.attr("defaultValue"));
+            break;
+
+          case "text":
+          case "textarea":
+            i.val(i.attr("defaultValue"));
+
+            if (i.val() == "") {
+              i.addClass("polyfill-placeholder");
+              i.val(i.attr("placeholder"));
+            }
+
+            break;
+
+          default:
+            i.val(i.attr("defaultValue"));
+            break;
+        }
+      });
+    });
 }
 
 (function ($) {
