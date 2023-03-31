@@ -4,8 +4,8 @@
  */
 function getNavList() {
   let $this = $(this);
-  $a = $this.find("a");
-  b = [];
+  let $a = $this.find("a");
+  let b = [];
   $a.each(function () {
     let $this = $(this),
       indent = Math.max(0, $this.parents("li").length - 1),
