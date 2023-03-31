@@ -112,10 +112,6 @@ section {
   display: block;
 }
 
-body {
-  line-height: 1;
-}
-
 ol,
 ul {
   list-style: none;
@@ -135,12 +131,9 @@ q:after {
 }
 
 table {
+  width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-body {
-  -webkit-text-size-adjust: none;
 }
 
 /* Box Model */
@@ -172,11 +165,6 @@ body {
 
 /* Containers */
 
-.container {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .container.\31 25\25 {
   width: 100%;
   max-width: 1750px;
@@ -196,6 +184,8 @@ body {
 }
 
 .container {
+  margin-left: auto;
+  margin-right: auto;
   width: 1400px;
 }
 
@@ -326,6 +316,7 @@ body {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  margin: -40px 0 -1px -40px;
 }
 
 .row > * {
@@ -333,6 +324,7 @@ body {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  padding: 40px 0 0 40px;
 }
 
 .row:after,
@@ -365,14 +357,6 @@ body {
 
 .row.uniform.\30 \25 {
   margin: 0px 0 -1px 0px;
-}
-
-.row > * {
-  padding: 40px 0 0 40px;
-}
-
-.row {
-  margin: -40px 0 -1px -40px;
 }
 
 .row.uniform > * {
@@ -1724,6 +1708,7 @@ body {
   font-weight: 300;
   line-height: 1.75em;
   color: #888;
+  -webkit-text-size-adjust: none;
 }
 
 body.is-loading * {
@@ -1976,86 +1961,7 @@ ol.default li {
   padding-left: 0.25em;
 }
 
-/* Form */
-
-form label {
-  display: block;
-  text-align: left;
-  margin-bottom: 0.5em;
-}
-
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form select,
-form textarea {
-  position: relative;
-  -webkit-appearance: none;
-  display: block;
-  border: 0;
-  outline: 0;
-  background: #fff;
-  background: rgba(255, 255, 255, 0.75);
-  width: 100%;
-  border-radius: 0.35em;
-  padding: 0.75em 1em 0.75em 1em;
-  box-shadow: inset 0 0.1em 0.1em 0 rgba(0, 0, 0, 0.05);
-  border: solid 1px rgba(0, 0, 0, 0.15);
-  -moz-transition: all 0.35s ease-in-out;
-  -webkit-transition: all 0.35s ease-in-out;
-  -ms-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out;
-}
-
-form input[type="text"]:focus,
-form input[type="email"]:focus,
-form input[type="password"]:focus,
-form select:focus,
-form textarea:focus {
-  box-shadow: 0 0 2px 1px #8ebebc;
-  background: #fff;
-}
-
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form select {
-  line-height: 1.25em;
-}
-
-form textarea {
-  min-height: 14em;
-}
-
-form .formerize-placeholder {
-  color: #555 !important;
-}
-
-form ::-webkit-input-placeholder {
-  color: #555 !important;
-}
-
-form :-moz-placeholder {
-  color: #555 !important;
-}
-
-form ::-moz-placeholder {
-  color: #555 !important;
-}
-
-form :-ms-input-placeholder {
-  color: #555 !important;
-}
-
-form ::-moz-focus-inner {
-  border: 0;
-}
-
 /* Table */
-
-table {
-  width: 100%;
-}
 
 table.default {
   width: 100%;
@@ -2170,7 +2076,7 @@ button:active,
 
 .icon:before {
   display: inline-block;
-  font-family: "Font Awesome\ 5 Free";
+  font-family: "Font Awesome\ 5 Free", sans-serif;
   font-size: 1.25em;
   text-decoration: none;
   font-style: normal;
@@ -2594,7 +2500,6 @@ button:active,
     top: 0;
     width: 275px;
     z-index: 10002;
-    width: 275px;
     box-shadow: inset -0.25em 0 0.25em 0 rgba(0, 0, 0, 0.125);
   }
 
@@ -2647,7 +2552,7 @@ button:active,
   }
 
   #headerToggle .toggle:before {
-    font-family: "Font Awesome\ 5 Free";
+    font-family: "Font Awesome\ 5 Free", sans-serif;
     text-decoration: none;
     font-style: normal;
     font-weight: 900;
@@ -2666,7 +2571,6 @@ button:active,
     display: block;
     width: 3.25em;
     height: 2.25em;
-    line-height: 2.25em;
   }
 
   body.header-visible #main {
