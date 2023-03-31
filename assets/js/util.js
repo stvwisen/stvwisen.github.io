@@ -95,8 +95,6 @@ function getPanelifiedElement(userConfig) {
   }
 
   // Panel.
-
-  // Methods.
   setupPanels($this, config, id);
 
   // Event: Touch stuff.
@@ -376,6 +374,7 @@ function prioritize($elements, condition) {
 }
 
 function setupPanels($this, config, id) {
+  // Methods.
   $this._hide = function (event) {
     // Already hidden? Bail.
     if (!config.target.hasClass(config.visibleClass)) return;
