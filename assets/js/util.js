@@ -3,10 +3,11 @@
  * @return {jQuery} jQuery object.
  */
 function getNavList() {
-  var $this = $(this);
-  ($a = $this.find("a")), (b = []);
+  let $this = $(this);
+  $a = $this.find("a");
+  b = [];
   $a.each(function () {
-    var $this = $(this),
+    let $this = $(this),
       indent = Math.max(0, $this.parents("li").length - 1),
       href = $this.attr("href"),
       target = $this.attr("target");
@@ -43,13 +44,13 @@ function getPanelifiedElement(userConfig) {
 
   // Multiple elements?
   if (this.length > 1) {
-    for (var i = 0; i < this.length; i++) $(this[i]).panel(userConfig);
+    for (let i = 0; i < this.length; i++) $(this[i]).panel(userConfig);
 
     return $this;
   }
 
-  // Vars.
-  var $this = $(this),
+  // vars.
+  let $this = $(this),
     $body = $("body"),
     $window = $(window),
     id = $this.attr("id"),
@@ -89,7 +90,9 @@ function getPanelifiedElement(userConfig) {
   );
 
   // Expand "target" if it's not a jQuery object already.
-  if (typeof config.target != "jQuery") config.target = $(config.target);
+  if (!(config.target instanceof jQuery)) {
+    config.target = $(config.target);
+  }
 
   // Panel.
 
@@ -130,7 +133,7 @@ function getPanelifiedElement(userConfig) {
     $this.find("a").css("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
 
     $this.on("click", "a", function (event) {
-      var $a = $(this),
+      let $a = $(this),
         href = $a.attr("href"),
         target = $a.attr("target");
 
@@ -160,14 +163,14 @@ function getPanelifiedElement(userConfig) {
   $this.on("touchmove", function (event) {
     if ($this.touchPosX === null || $this.touchPosY === null) return;
 
-    var diffX = $this.touchPosX - event.originalEvent.touches[0].pageX,
+    let diffX = $this.touchPosX - event.originalEvent.touches[0].pageX,
       diffY = $this.touchPosY - event.originalEvent.touches[0].pageY,
       th = $this.outerHeight(),
       ts = $this.get(0).scrollHeight - $this.scrollTop();
 
     // Hide on swipe?
     if (config.hideOnSwipe) {
-      var result = false,
+      let result = false,
         boundary = 20,
         delta = 50;
 
@@ -266,25 +269,25 @@ function applyPlaceholder() {
 
   // Multiple elements?
   if (this.length > 1) {
-    for (var i = 0; i < this.length; i++) $(this[i]).placeholder();
+    for (let i = 0; i < this.length; i++) $(this[i]).placeholder();
 
     return $this;
   }
 
-  // Vars.
-  var $this = $(this);
+  // vars.
+  let $this = $(this);
 
   // Text, TextArea.
   $this
     .find("input[type=text],textarea")
     .each(function () {
-      var i = $(this);
+      let i = $(this);
 
       if (i.val() == "" || i.val() == i.attr("placeholder"))
         i.addClass("polyfill-placeholder").val(i.attr("placeholder"));
     })
     .on("blur", function () {
-      var i = $(this);
+      let i = $(this);
 
       if (i.attr("name").match(/-polyfill-field$/)) return;
 
@@ -292,7 +295,7 @@ function applyPlaceholder() {
         i.addClass("polyfill-placeholder").val(i.attr("placeholder"));
     })
     .on("focus", function () {
-      var i = $(this);
+      let i = $(this);
 
       if (i.attr("name").match(/-polyfill-field$/)) return;
 
@@ -302,8 +305,8 @@ function applyPlaceholder() {
 
   // Password.
   $this.find("input[type=password]").each(function () {
-    var i = $(this);
-    var x = $(
+    let i = $(this);
+    let x = $(
       $("<div>")
         .append(i.clone())
         .remove()
@@ -327,7 +330,7 @@ function applyPlaceholder() {
     i.on("blur", function (event) {
       event.preventDefault();
 
-      var x = i
+      let x = i
         .parent()
         .find("input[name=" + i.attr("name") + "-polyfill-field]");
 
@@ -340,7 +343,7 @@ function applyPlaceholder() {
     x.on("focus", function (event) {
       event.preventDefault();
 
-      var i = x
+      let i = x
         .parent()
         .find(
           "input[name=" + x.attr("name").replace("-polyfill-field", "") + "]"
@@ -361,7 +364,7 @@ function applyPlaceholder() {
       $this
         .find("input[type=text],input[type=password],textarea")
         .each(function (event) {
-          var i = $(this);
+          let i = $(this);
 
           if (i.attr("name").match(/-polyfill-field$/)) i.attr("name", "");
 
@@ -377,7 +380,7 @@ function applyPlaceholder() {
       $this.find("select").val($("option:first").val());
 
       $this.find("input,textarea").each(function () {
-        var i = $(this),
+        let i = $(this),
           x;
 
         i.removeClass("polyfill-placeholder");
@@ -436,14 +439,16 @@ function applyPlaceholder() {
  * @param {bool} condition If true, moves elements to the top. Otherwise, moves elements back to their original locations.
  */
 function prioritize($elements, condition) {
-  var key = "__prioritize";
+  let key = "__prioritize";
 
   // Expand $elements if it's not already a jQuery object.
-  if (typeof $elements != "jQuery") $elements = $($elements);
+  if (!($elements instanceof jQuery)) {
+    $elements = $($elements);
+  }
 
   // Step through elements.
   $elements.each(function () {
-    var $e = $(this),
+    let $e = $(this),
       $p,
       $parent = $e.parent();
 
